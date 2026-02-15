@@ -58,7 +58,8 @@ export default async function Page() {
 async function RandomWikiArticle() {
     const randomWiki = await fetch(randomWikiUrl, {
         headers: {
-            'User-Agent': 'Next-Platform-Starter/0.1.0 (https://github.com/netlify-templates/next-platform-starter; demo project)'
+            'User-Agent':
+                'Next-Platform-Starter/0.1.0 (https://github.com/netlify-templates/next-platform-starter; demo project)'
         },
         next: { revalidate: revalidateTTL, tags: [tagName] }
     });
