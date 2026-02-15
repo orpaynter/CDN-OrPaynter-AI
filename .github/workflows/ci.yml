@@ -28,8 +28,9 @@ jobs:
             - name: Check code formatting with Prettier
               run: npx prettier --check .
 
-            - name: Validate package.json
-              run: npm run lint --if-present || echo "Lint script not available or failed"
+            - name: Run linting (if available)
+              run: npm run lint --if-present
+              continue-on-error: true
 
     build:
         name: Build
@@ -47,8 +48,12 @@ jobs:
             - name: Install dependencies
               run: npm ci
 
-            - name: Type check and build
-              run: npm run build || echo "Build failed - may require environment variables or network access"
+            - name: Build Next.js application
+              run: npm run build
+              env:
+                  NODE_ENV: production
+              # Note: Build may fail in CI due to network dependencies (e.g., fetching from Wikipedia)
+              # This is expected for this demo project. In production, mock external dependencies.
               continue-on-error: true
 
     security:
@@ -67,9 +72,10 @@ jobs:
             - name: Install dependencies
               run: npm ci
 
-            - name: Audit dependencies for high vulnerabilities
-              run: npm audit --audit-level=high || echo "High severity vulnerabilities found"
+            - name: Audit dependencies for vulnerabilities
+              run: npm audit --audit-level=moderate
+              # Allow moderate/high vulnerabilities but fail on critical
               continue-on-error: true
 
-            - name: Audit dependencies for critical vulnerabilities
+            - name: Check for critical vulnerabilities
               run: npm audit --audit-level=critical

@@ -9,7 +9,7 @@ This directory contains GitHub-specific configuration files for the CDN-OrPaynte
 Contains GitHub Actions workflow files for Continuous Integration (CI) and automation.
 
 - **`ci.yml`** - Main CI workflow that runs on pull requests and pushes to main
-  - Linting checks with ESLint
+  - Code formatting checks with Prettier
   - Build verification for Next.js application
   - Security audit for npm dependencies
 
@@ -79,9 +79,9 @@ graph LR
 
 **Jobs:**
 
-1. **Lint** - Runs ESLint to check code quality
+1. **Quality Checks** - Runs Prettier to check code formatting
 2. **Build** - Builds the Next.js application
-3. **Security** - Checks for dependency vulnerabilities
+3. **Security Audit** - Checks for dependency vulnerabilities
 
 **Node.js Version:** 20 (LTS)
 

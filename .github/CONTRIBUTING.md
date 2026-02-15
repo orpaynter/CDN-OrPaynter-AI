@@ -80,7 +80,7 @@ This repository uses branch protection rules for the `main` branch:
 - ✅ Force pushes are blocked
 - ✅ Direct pushes to main are blocked
 
-See [BRANCH_RULESET.md](.github/BRANCH_RULESET.md) for details.
+See [BRANCH_RULESET.md](BRANCH_RULESET.md) for details.
 
 ## CI/CD Pipeline
 
@@ -212,7 +212,7 @@ Write clear and meaningful commit messages:
 
 - Check existing [issues](https://github.com/orpaynter/CDN-OrPaynter-AI/issues)
 - Read the [README.md](../README.md)
-- Review [BRANCH_RULESET.md](.github/BRANCH_RULESET.md)
+- Review [BRANCH_RULESET.md](BRANCH_RULESET.md)
 - Contact repository maintainers
 
 ## License

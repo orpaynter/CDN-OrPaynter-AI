@@ -25,9 +25,9 @@ Branch rulesets help enforce best practices for code quality, security, and coll
 
 Required status checks before merging:
 
-- `Lint` (from CI workflow)
+- `Quality Checks` (from CI workflow)
 - `Build` (from CI workflow)
-- `Security Check` (from CI workflow)
+- `Security Audit` (from CI workflow)
 
 **Configuration:**
 
@@ -95,9 +95,9 @@ ruleset:
     require_status_checks:
       strict: true
       checks:
-        - Lint
+        - Quality Checks
         - Build
-        - Security Check
+        - Security Audit
 
     block_force_pushes: true
     restrict_deletions: true
@@ -110,9 +110,9 @@ ruleset:
 
 The `.github/workflows/ci.yml` workflow provides the required status checks:
 
-- **Lint:** Runs ESLint to ensure code quality
+- **Quality Checks:** Runs Prettier to ensure code formatting is consistent
 - **Build:** Verifies the Next.js application builds successfully
-- **Security:** Checks for known vulnerabilities in dependencies
+- **Security Audit:** Checks for known vulnerabilities in dependencies
 
 These checks must pass before a PR can be merged to main.
 

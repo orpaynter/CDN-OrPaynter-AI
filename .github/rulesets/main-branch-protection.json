@@ -26,7 +26,7 @@
             "parameters": {
                 "required_status_checks": [
                     {
-                        "context": "Lint",
+                        "context": "Quality Checks",
                         "integration_id": null
                     },
                     {
@@ -34,7 +34,7 @@
                         "integration_id": null
                     },
                     {
-                        "context": "Security Check",
+                        "context": "Security Audit",
                         "integration_id": null
                     }
                 ],
