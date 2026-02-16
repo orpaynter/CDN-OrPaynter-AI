@@ -39,6 +39,21 @@ netlify dev
 
 If your browser doesn't navigate to the site automatically, visit [localhost:8888](http://localhost:8888).
 
+## Security & Repository Visibility
+
+**Is this repository safe to be public?** Yes! ✅
+
+This is a demonstration/template application with:
+- ✅ No hardcoded secrets or credentials
+- ✅ Zero npm dependency vulnerabilities
+- ✅ Proper environment variable management
+- ✅ Security headers implemented
+
+**For detailed information:**
+- [Security Audit Report](./SECURITY_AUDIT.md) - Comprehensive security analysis
+- [Repository Visibility Guide](./REPOSITORY_VISIBILITY.md) - Should this repo be private?
+- [Security Policy](./SECURITY.md) - Reporting vulnerabilities & best practices
+
 ## Resources
 
 - [Next.js on Netlify docs](https://docs.netlify.com/frameworks/next-js/overview/)
