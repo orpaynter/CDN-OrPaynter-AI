@@ -15,6 +15,10 @@ CDN-OrPaynter-AI is a web application that serves static assets and dynamic cont
 - **Revalidation** — Incremental Static Regeneration (ISR) support for up-to-date content.
 - **Dynamic Routing** — Configurable redirects and rewrites via `next.config.js`.
 
+## Private Access
+
+This site is protected by HTTP Basic Auth. Set `BASIC_AUTH_USERNAME` and `BASIC_AUTH_PASSWORD` in your environment (for example in Netlify site settings or a local `.env.local`) before running `netlify dev` or deploying.
+
 ## Developing Locally
 
 1. Clone this repository, then run `npm install` in its root directory.
