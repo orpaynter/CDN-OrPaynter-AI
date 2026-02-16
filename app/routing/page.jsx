@@ -84,7 +84,9 @@ export default function Page() {
 
             <div className="grid gap-6 mb-8 md:grid-cols-2">
                 <Card title="Try Redirects">
-                    <p className="mb-4">These links will redirect you to a different URL (notice the URL change in your browser):</p>
+                    <p className="mb-4">
+                        These links will redirect you to a different URL (notice the URL change in your browser):
+                    </p>
                     <ul className="space-y-2">
                         <li>
                             <Link href="/docs" className="link">
@@ -110,7 +112,10 @@ export default function Page() {
                 </Card>
 
                 <Card title="Try Rewrites">
-                    <p className="mb-4">These links use rewrites to show different content while keeping the URL (notice the URL stays the same):</p>
+                    <p className="mb-4">
+                        These links use rewrites to show different content while keeping the URL (notice the URL stays
+                        the same):
+                    </p>
                     <ul className="space-y-2">
                         <li>
                             <Link href="/api/health" className="link">
