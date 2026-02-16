@@ -115,7 +115,23 @@ class OrPaynterClaimsServer {
     });
 
     if (!response.ok) {
-      throw new Error(`OrPaynter Claims API request failed: ${response.status}`);
+      let errorBodySnippet = '';
+      try {
+        const rawBody = await response.text();
+        if (rawBody) {
+          const maxLength = 500;
+          const trimmed =
+            rawBody.length > maxLength ? rawBody.slice(0, maxLength) + '…' : rawBody;
+          errorBodySnippet = ` | body: ${trimmed}`;
+        }
+      } catch {
+        // Ignore errors while reading error body; fall back to status information only.
+      }
+
+      const statusTextPart = response.statusText ? ` ${response.statusText}` : '';
+      throw new Error(
+        `OrPaynter Claims API request failed: ${response.status}${statusTextPart}${errorBodySnippet}`
+      );
     }
 
     return (await response.json()) as TResponse;
