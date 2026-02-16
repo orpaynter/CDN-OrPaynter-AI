@@ -39,7 +39,19 @@ netlify dev
 
 If your browser doesn't navigate to the site automatically, visit [localhost:8888](http://localhost:8888).
 
+## Contributing
+
+We welcome contributions! Please read our [Contributing Guide](.github/CONTRIBUTING.md) to learn about:
+
+- Development workflow
+- Branch protection rules
+- Code style guidelines
+- How to submit pull requests
+
+For repository administrators, see the [Branch Ruleset Setup Guide](.github/SETUP_GUIDE.md) for configuring branch protection.
+
 ## Resources
 
 - [Next.js on Netlify docs](https://docs.netlify.com/frameworks/next-js/overview/)
 - [Netlify Core Primitives](https://docs.netlify.com/core/overview/#develop)
+- [GitHub Configuration](.github/README.md) - CI/CD workflows and branch protection
