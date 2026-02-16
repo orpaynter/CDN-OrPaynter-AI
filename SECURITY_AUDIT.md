@@ -1,6 +1,7 @@
 # Security Audit Report - CDN-OrPaynter-AI
 
-**Audit Date:** February 16, 2026  
+**Initial Audit:** February 16, 2026  
+**Review Cadence:** Re-audit at least annually or after significant architectural/security-relevant changes  
 **Repository:** orpaynter/CDN-OrPaynter-AI  
 **Current Visibility:** Public
 
