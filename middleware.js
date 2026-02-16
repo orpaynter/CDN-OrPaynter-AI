@@ -6,6 +6,29 @@ const unauthorized = () => {
   return response;
 };
 
+const decodeBasicAuth = (encoded) => {
+  try {
+    const decoded = atob(encoded);
+    const bytes = Uint8Array.from(decoded, (char) => char.charCodeAt(0));
+    return new TextDecoder('utf-8').decode(bytes);
+  } catch {
+    return null;
+  }
+};
+
+const timingSafeEqual = (left, right) => {
+  if (left.length !== right.length) {
+    return false;
+  }
+
+  let mismatch = 0;
+  for (let index = 0; index < left.length; index += 1) {
+    mismatch |= left.charCodeAt(index) ^ right.charCodeAt(index);
+  }
+
+  return mismatch === 0;
+};
+
 const isAuthorized = (request, username, password) => {
   const authHeader = request.headers.get('authorization');
   if (!authHeader) {
@@ -17,10 +40,8 @@ const isAuthorized = (request, username, password) => {
     return false;
   }
 
-  let decoded = '';
-  try {
-    decoded = atob(encoded);
-  } catch {
+  const decoded = decodeBasicAuth(encoded);
+  if (!decoded) {
     return false;
   }
 
@@ -31,7 +52,7 @@ const isAuthorized = (request, username, password) => {
 
   const suppliedUser = decoded.slice(0, separator);
   const suppliedPassword = decoded.slice(separator + 1);
-  return suppliedUser === username && suppliedPassword === password;
+  return timingSafeEqual(suppliedUser, username) && timingSafeEqual(suppliedPassword, password);
 };
 
 export function middleware(request) {
