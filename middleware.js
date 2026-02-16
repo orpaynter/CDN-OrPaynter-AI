@@ -8,7 +8,13 @@ const unauthorized = () => {
 
 const decodeBasicAuth = (encoded) => {
   try {
-    return atob(encoded);
+    if (typeof atob === 'function') {
+      return atob(encoded);
+    }
+    if (typeof Buffer !== 'undefined') {
+      return Buffer.from(encoded, 'base64').toString('utf-8');
+    }
+    return null;
   } catch {
     return null;
   }
@@ -58,7 +64,8 @@ export function middleware(request) {
   const password = process.env.BASIC_AUTH_PASSWORD;
 
   if (!username || !password) {
-    return new NextResponse('Service unavailable.', { status: 503 });
+    console.error('[Middleware] Missing BASIC_AUTH_USERNAME or BASIC_AUTH_PASSWORD.');
+    return new NextResponse('Service unavailable.', { status: 500 });
   }
 
   if (!isAuthorized(request, username, password)) {
