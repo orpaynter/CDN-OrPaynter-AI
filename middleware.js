@@ -2,15 +2,13 @@ import { NextResponse } from 'next/server';
 
 const unauthorized = () => {
   const response = new NextResponse('Authentication required.', { status: 401 });
-  response.headers.set('WWW-Authenticate', 'Basic realm="Private Site", charset="UTF-8"');
+  response.headers.set('WWW-Authenticate', 'Basic realm="Private Site"');
   return response;
 };
 
 const decodeBasicAuth = (encoded) => {
   try {
-    const decoded = atob(encoded);
-    const bytes = Uint8Array.from(decoded, (char) => char.charCodeAt(0));
-    return new TextDecoder('utf-8').decode(bytes);
+    return atob(encoded);
   } catch {
     return null;
   }
@@ -56,12 +54,11 @@ const isAuthorized = (request, username, password) => {
 };
 
 export function middleware(request) {
-  const pathname = request.nextUrl.pathname;
   const username = process.env.BASIC_AUTH_USERNAME;
   const password = process.env.BASIC_AUTH_PASSWORD;
 
   if (!username || !password) {
-    return new NextResponse('Private site credentials are not configured.', { status: 503 });
+    return new NextResponse('Service unavailable.', { status: 503 });
   }
 
   if (!isAuthorized(request, username, password)) {
@@ -77,6 +74,8 @@ export function middleware(request) {
 
   // Add custom header to track middleware execution
   response.headers.set('X-Middleware-Executed', 'true');
+
+  const pathname = request.nextUrl.pathname;
 
   // Logging for demonstration (in production, use proper logging service)
   console.log(`[Middleware] ${request.method} ${pathname} - ${new Date().toISOString()}`);
