@@ -64,7 +64,6 @@ export function middleware(request) {
   const password = process.env.BASIC_AUTH_PASSWORD;
 
   if (!username || !password) {
-    console.error('[Middleware] Missing BASIC_AUTH_USERNAME or BASIC_AUTH_PASSWORD.');
     return new NextResponse('Service unavailable.', { status: 500 });
   }
 
