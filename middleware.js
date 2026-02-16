@@ -25,12 +25,12 @@ const timingSafeEqual = (left, right) => {
     return false;
   }
 
-  let mismatch = 0;
+  let diff = 0;
   for (let index = 0; index < left.length; index += 1) {
-    mismatch |= left.charCodeAt(index) ^ right.charCodeAt(index);
+    diff |= left.charCodeAt(index) ^ right.charCodeAt(index);
   }
 
-  return mismatch === 0;
+  return diff === 0;
 };
 
 const isAuthorized = (request, username, password) => {
@@ -64,7 +64,7 @@ export function middleware(request) {
   const password = process.env.BASIC_AUTH_PASSWORD;
 
   if (!username || !password) {
-    return new NextResponse('Service unavailable.', { status: 500 });
+    return new NextResponse('Service unavailable.', { status: 503 });
   }
 
   if (!isAuthorized(request, username, password)) {
