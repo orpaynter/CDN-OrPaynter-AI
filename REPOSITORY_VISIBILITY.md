@@ -20,7 +20,7 @@ This is a **demonstration/template application** that:
 
 ### Public, Non-Sensitive Content:
 - **Demo application** showcasing Netlify + Next.js features
-- **Movie quotes** from famous films (public domain content)
+- **Movie quotes** from famous films (used for demonstration purposes)
 - **Configuration examples** for Netlify deployment
 - **Security headers** implementation examples
 - **Template code** for CDN and edge functions
