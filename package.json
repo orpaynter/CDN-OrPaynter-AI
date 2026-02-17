@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "type": "module",
   "private": true,
+  "workspaces": [
+    "packages/agent-infra/*"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
