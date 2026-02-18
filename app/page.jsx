@@ -21,13 +21,13 @@ export default function Page() {
         <div className="flex flex-col gap-12 sm:gap-16">
             <section>
                 <ContextAlert className="mb-6" />
-                <h1 className="mb-4">Netlify Platform Starter – Next.js</h1>
+                <h1 className="mb-4">OrPaynter, Inc. - AI-Powered CDN Platform</h1>
                 <p className="mb-6 text-lg">
-                    Deploy the latest version of Next.js — including Turbopack, React Compiler, and the new caching APIs
-                    — on Netlify in seconds. No configuration or custom adapter required.
+                    Welcome to OrPaynter's cutting-edge content delivery network. Built with Next.js 16, featuring 
+                    advanced AI capabilities, edge computing, and optimized content delivery for maximum performance.
                 </p>
-                <Link href="https://docs.netlify.com/frameworks/next-js/overview/" className="btn btn-lg sm:min-w-64">
-                    Read the Docs
+                <Link href="https://github.com/orpaynter/CDN-OrPaynter-AI" className="btn btn-lg sm:min-w-64">
+                    Learn More
                 </Link>
             </section>
             {!!ctx && (
@@ -45,11 +45,11 @@ export default function Page() {
 }
 
 function RuntimeContextCard() {
-    const title = `Netlify Context: running in ${ctx} mode.`;
+    const title = `Runtime Context: ${ctx} mode`;
     if (ctx === 'dev') {
         return (
             <Card title={title}>
-                <p>Next.js will rebuild any page you navigate to, including static pages.</p>
+                <p>Running in development mode with hot-reloading enabled.</p>
             </Card>
         );
     } else {
