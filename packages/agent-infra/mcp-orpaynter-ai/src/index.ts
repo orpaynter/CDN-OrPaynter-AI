@@ -88,6 +88,42 @@ function readStringArray(value: unknown, fieldName: string): string[] {
 }
 
 /**
+ * Validates that a string is a well-formed URL.
+ */
+function isValidUrl(url: string): boolean {
+  try {
+    const parsed = new URL(url);
+    return parsed.protocol === 'http:' || parsed.protocol === 'https:';
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Validates an array of URL strings.
+ */
+function validateUrls(urls: string[], fieldName: string): void {
+  for (const url of urls) {
+    if (!isValidUrl(url)) {
+      throw new Error(`Invalid URL in ${fieldName}: ${url}`);
+    }
+  }
+}
+
+/**
+ * Validates that analysisType is one of the allowed enum values.
+ */
+function validateAnalysisType(value: unknown): AnalysisType {
+  const validTypes: AnalysisType[] = ['damage_detection', 'cost_estimation', 'full_analysis'];
+  if (typeof value !== 'string' || !validTypes.includes(value as AnalysisType)) {
+    throw new Error(
+      `Invalid analysisType: expected one of ${validTypes.join(', ')}, got ${value}`
+    );
+  }
+  return value as AnalysisType;
+}
+
+/**
  * Bootstraps the MCP server and registers AI tool handlers over stdio.
  */
 async function main(): Promise<void> {
@@ -171,15 +207,32 @@ async function main(): Promise<void> {
     switch (name) {
       case 'analyze_images': {
         const imageUrls = readStringArray(args.imageUrls, 'imageUrls');
-        const analysisType = (args.analysisType as AnalysisType | undefined) ?? 'full_analysis';
+        validateUrls(imageUrls, 'imageUrls');
+        const analysisType = args.analysisType
+          ? validateAnalysisType(args.analysisType)
+          : 'full_analysis';
         const analysisResult = await aiService.analyzeImages(imageUrls, analysisType);
         return {
           content: [{ type: 'text', text: JSON.stringify(analysisResult, null, 2) }],
         };
       }
       case 'generate_report': {
-        const analysisData = (args.analysisData as JsonObject) ?? {};
-        const propertyInfo = (args.propertyInfo as JsonObject) ?? {};
+        if (
+          !args.analysisData ||
+          typeof args.analysisData !== 'object' ||
+          Array.isArray(args.analysisData)
+        ) {
+          throw new Error('analysisData is required and must be an object');
+        }
+        if (
+          !args.propertyInfo ||
+          typeof args.propertyInfo !== 'object' ||
+          Array.isArray(args.propertyInfo)
+        ) {
+          throw new Error('propertyInfo is required and must be an object');
+        }
+        const analysisData = args.analysisData as JsonObject;
+        const propertyInfo = args.propertyInfo as JsonObject;
         const reportResult = await aiService.generateReport(analysisData, propertyInfo);
         return {
           content: [{ type: 'text', text: JSON.stringify(reportResult, null, 2) }],
@@ -187,7 +240,12 @@ async function main(): Promise<void> {
       }
       case 'estimate_costs': {
         const damageTypes = readStringArray(args.damageTypes, 'damageTypes');
-        const propertySize = Number(args.propertySize);
+        const rawPropertySize = args.propertySize;
+        const propertySize =
+          typeof rawPropertySize === 'number' ? rawPropertySize : Number(rawPropertySize);
+        if (!Number.isFinite(propertySize) || propertySize <= 0) {
+          throw new Error('Invalid propertySize: expected a positive number');
+        }
         const location = String(args.location ?? 'unknown');
         const costResult = await aiService.estimateCosts(damageTypes, propertySize, location);
         return {
