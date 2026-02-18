@@ -31,12 +31,42 @@ class OrPaynterClaimsServer {
 
   /** Assess property damage from photo evidence. */
   async assessDamage(photoUrls: string[]): Promise<JsonObject> {
+    const mode = ORPAYNTER_API_BASE ? 'live' : 'demo';
+
+    const findings =
+      mode === 'demo' ? this.generateDemoFindings(photoUrls) : [];
+
     return {
-      mode: ORPAYNTER_API_BASE ? 'live' : 'demo',
+      mode,
       assessedPhotos: photoUrls.length,
       riskLevel: photoUrls.length > 3 ? 'medium' : 'low',
-      findings: ['roofing impact damage', 'flashing deterioration'],
+      findings,
     };
+  }
+
+  /**
+   * Generate clearly synthetic findings for demo mode so callers are not misled.
+   */
+  private generateDemoFindings(photoUrls: string[]): string[] {
+    if (photoUrls.length === 0) {
+      return ['DEMO: no photos provided – synthetic assessment only'];
+    }
+
+    if (photoUrls.length === 1) {
+      return ['DEMO: possible minor exterior wear (example finding)'];
+    }
+
+    if (photoUrls.length <= 3) {
+      return [
+        'DEMO: possible localized damage (example finding)',
+        'DEMO: recommend in-person inspection (example finding)',
+      ];
+    }
+
+    return [
+      'DEMO: multiple areas of potential damage (example finding)',
+      'DEMO: recommend comprehensive roof inspection (example finding)',
+    ];
   }
 
   /** Return available claims records for the current tenant/user scope. */
@@ -67,6 +97,29 @@ function readStringArray(value: unknown, fieldName: string): string[] {
     throw new Error(`Invalid argument: ${fieldName} must be an array of strings.`);
   }
   return value;
+}
+
+/**
+ * Validates that a string is a well-formed URL.
+ */
+function isValidUrl(url: string): boolean {
+  try {
+    const parsed = new URL(url);
+    return parsed.protocol === 'http:' || parsed.protocol === 'https:';
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Validates an array of URL strings.
+ */
+function validateUrls(urls: string[], fieldName: string): void {
+  for (const url of urls) {
+    if (!isValidUrl(url)) {
+      throw new Error(`Invalid URL in ${fieldName}: ${url}`);
+    }
+  }
 }
 
 /**
@@ -146,9 +199,24 @@ async function main(): Promise<void> {
 
     switch (name) {
       case 'create_claim': {
-        const propertyAddress = String(args.propertyAddress ?? '');
-        const damageType = String(args.damageType ?? '');
+        const propertyAddressRaw = args.propertyAddress;
+        const damageTypeRaw = args.damageType;
+
+        if (typeof propertyAddressRaw !== 'string' || propertyAddressRaw.trim() === '') {
+          throw new Error(
+            'create_claim: "propertyAddress" is required and must be a non-empty string.'
+          );
+        }
+
+        if (typeof damageTypeRaw !== 'string' || damageTypeRaw.trim() === '') {
+          throw new Error('create_claim: "damageType" is required and must be a non-empty string.');
+        }
+
+        const propertyAddress = propertyAddressRaw;
+        const damageType = damageTypeRaw;
         const photos = readStringArray(args.photos, 'photos');
+        validateUrls(photos, 'photos');
+
         const claimResult = await claimsService.createClaim(propertyAddress, damageType, photos);
         return {
           content: [{ type: 'text', text: JSON.stringify(claimResult, null, 2) }],
@@ -156,6 +224,7 @@ async function main(): Promise<void> {
       }
       case 'assess_damage': {
         const photoUrls = readStringArray(args.photoUrls, 'photoUrls');
+        validateUrls(photoUrls, 'photoUrls');
         const assessmentResult = await claimsService.assessDamage(photoUrls);
         return {
           content: [{ type: 'text', text: JSON.stringify(assessmentResult, null, 2) }],
@@ -168,8 +237,23 @@ async function main(): Promise<void> {
         };
       }
       case 'update_claim_status': {
-        const claimId = String(args.claimId ?? '');
-        const status = String(args.status ?? '');
+        const claimIdRaw = args.claimId;
+        const statusRaw = args.status;
+
+        if (typeof claimIdRaw !== 'string' || claimIdRaw.trim() === '') {
+          throw new Error(
+            'update_claim_status: "claimId" is required and must be a non-empty string.'
+          );
+        }
+
+        if (typeof statusRaw !== 'string' || statusRaw.trim() === '') {
+          throw new Error(
+            'update_claim_status: "status" is required and must be a non-empty string.'
+          );
+        }
+
+        const claimId = claimIdRaw;
+        const status = statusRaw;
         const updateResult = await claimsService.updateClaimStatus(claimId, status);
         return {
           content: [{ type: 'text', text: JSON.stringify(updateResult, null, 2) }],
