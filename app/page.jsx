@@ -23,7 +23,7 @@ export default function Page() {
                 <ContextAlert className="mb-6" />
                 <h1 className="mb-4">OrPaynter, Inc. - AI-Powered CDN Platform</h1>
                 <p className="mb-6 text-lg">
-                    Welcome to OrPaynter's cutting-edge content delivery network. Built with Next.js 16, featuring 
+                    Welcome to OrPaynter's cutting-edge content delivery network. Built with Next.js 16, featuring
                     advanced AI capabilities, edge computing, and optimized content delivery for maximum performance.
                 </p>
                 <Link href="https://github.com/orpaynter/CDN-OrPaynter-AI" className="btn btn-lg sm:min-w-64">
