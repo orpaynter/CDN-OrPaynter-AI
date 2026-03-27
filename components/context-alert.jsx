@@ -3,8 +3,8 @@ import { Alert } from './alert';
 import { Markdown } from './markdown';
 
 const noNetlifyContextAlert = `
-For full functionality, either run this site locally via \`netlify dev\`
-([see docs](https://docs.netlify.com/cli/local-development/")) or deploy it to Netlify.
+For full functionality, run this site locally via \`npm run dev\` or \`netlify dev\`
+([see docs](https://github.com/orpaynter/CDN-OrPaynter-AI)) for edge functions and blob store features.
 `;
 
 export function ContextAlert(props) {

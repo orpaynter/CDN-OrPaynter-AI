@@ -1,45 +1,50 @@
-# CDN-OrPaynter-AI
+# OrPaynter 🏠⚡
 
-A content delivery network (CDN) for [OrPaynter AI](https://github.com/orpaynter), built with Next.js 16 (App Router), Tailwind CSS, and deployed on [Netlify](https://www.netlify.com/).
+**AI Roof Inspections in 3 Seconds. Insurance-Ready Reports. Zero Manual Work.**
 
-## What Is It?
+I’m Oliver Paynter — ex-roofer from Texas who swung hammers on real jobs where deadlines don’t care and excuses don’t pay the bills. I got sick of the chaos, the delays, and systems that never talked to each other. So I built OrPaynter.
 
-CDN-OrPaynter-AI is a web application that serves static assets and dynamic content for the OrPaynter AI platform. It leverages [Netlify Core Primitives](https://docs.netlify.com/core/overview/#develop) — including Edge Functions, Image CDN, and Blob Store — to deliver optimized resources with low latency.
+**Agentic AI orchestration platform** with 7 specialized agents that run your entire roofing workflow — automatically. 98% damage detection accuracy. Contractors close deals **3× faster**. Built by roofers, for roofers.
 
-### Key Features
+### The 7 Agents That Actually Get Shit Done
 
-- **Edge Functions** — Run server-side logic at the edge for fast, location-aware responses.
-- **Image CDN** — Automatic image optimization and transformation via `next/image` and Netlify's Image CDN.
-- **Blob Store** — Persistent key-value storage for dynamic content.
-- **Middleware** — Request-level security headers and routing logic.
-- **Revalidation** — Incremental Static Regeneration (ISR) support for up-to-date content.
-- **Dynamic Routing** — Configurable redirects and rewrites via `next.config.js`.
+| Agent              | Role                             | Real Impact                    |
+| ------------------ | -------------------------------- | ------------------------------ |
+| **Intake**         | Lead qual & signal catcher       | Every job starts right         |
+| **Estimator**      | Instant Xactimate-level bids     | Accurate in seconds            |
+| **Scheduler**      | Crew & inspection coordination   | No more missed slots           |
+| **Compliance**     | Permits, regs, audits            | Always legal & clean           |
+| **Claims**         | Full insurance docs & submission | Payouts 5× faster              |
+| **Customer**       | 24/7 homeowner comms             | Better reviews, more referrals |
+| **Reconciliation** | Payments & job close-out         | Clean cash flow                |
 
-## Developing Locally
+### Live Numbers (Feb 2026)
 
-1. Clone this repository, then run `npm install` in its root directory.
+- 500+ active contractors
+- 50+ insurance partners (State Farm, Allstate, Liberty Mutual, USAA, Progressive + more)
+- 10K+ estimates generated
+- $2M+ claims processed
+- 33.3% conversion rate
+- 10× faster operations
+- 40% more deals closed
+- 70% lower costs for insurance partners
+- SOC 2 compliant • GDPR ready • Enterprise security
 
-2. For full functionality locally (e.g. edge functions, blob store), ensure you have an up-to-date version of Netlify CLI. Run:
+> “This platform turns pressure into progress — and gives you peace of mind.”  
+> — Oliver Paynter
 
-```
-npm install netlify-cli@latest -g
-```
+### Jump In
 
-3. Link your local repository to the deployed Netlify site. This will ensure you're using the same runtime version for both local development and your deployed site.
+- [Book a 5-min live demo](https://orpaynter.com)
+- [Get instant AI inspection](https://orpaynter.com/homeowner)
+- [See plans & pricing](https://orpaynter.com/pricing)
+- [Public CDN edge infra](https://github.com/orpaynter/CDN-OrPaynter-AI)
 
-```
-netlify link
-```
+**For roofers:** Stop fighting the old way.  
+**For devs & partners:** Star it, fork it, open issues — let’s build.  
+**For investors:** Pre-IPO Delaware C-Corp — hit me direct.
 
-4. Then, run the Next.js development server via Netlify CLI:
+**We don’t just automate tasks. We orchestrate intelligence.**
 
-```
-netlify dev
-```
-
-If your browser doesn't navigate to the site automatically, visit [localhost:8888](http://localhost:8888).
-
-## Resources
-
-- [Next.js on Netlify docs](https://docs.netlify.com/frameworks/next-js/overview/)
-- [Netlify Core Primitives](https://docs.netlify.com/core/overview/#develop)
+Made with calluses, code, and roof tar in Lavon, Texas  
+[orpaynter.com](https://orpaynter.com) • [@ORPAYNTER1](https://x.com/ORPAYNTER1) • Oliver@OrPaynter.com | (469) 479-2526
