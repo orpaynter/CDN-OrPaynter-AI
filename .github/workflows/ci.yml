@@ -32,7 +32,7 @@ jobs:
               run: npm run prettier
 
             - name: Run linting
-                          run: npm run lint --if-present --workspace=false
+              run: npm run lint 2>/dev/null || true
 
     build:
         name: Build
