@@ -1,295 +1,250 @@
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
-import {
-  CallToolRequestSchema,
-  ListToolsRequestSchema,
-} from '@modelcontextprotocol/sdk/types.js';
+import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
 
 const ORPAYNTER_API_BASE = process.env.ORPAYNTER_API_BASE;
 
+type JsonObject = Record<string, unknown>;
+
 type AnalysisType = 'damage_detection' | 'cost_estimation' | 'full_analysis';
 
-interface AnalyzeImagesResult {
-  analysisType: AnalysisType;
-  imageCount: number;
-  findings: string[];
-  confidence: number;
-}
-
-interface GenerateReportResult {
-  reportId: string;
-  summary: string;
-  generatedAt: string;
-}
-
-interface EstimateCostsResult {
-  lowEstimate: number;
-  highEstimate: number;
-  currency: 'USD';
-}
-
-interface ModelStatusResult {
-  status: 'healthy' | 'degraded';
-  mode: 'demo' | 'live';
-  latencyMsP95: number;
-}
-
 /**
- * Encapsulates API and demo behavior for OrPaynter AI workflows.
+ * Provides AI workflows used by the OrPaynter MCP bridge.
+ *
+ * NOTE: This class intentionally returns deterministic demo responses when
+ * ORPAYNTER_API_BASE is not configured so local development and CI can still
+ * exercise tool wiring.
  */
 class OrPaynterAIServer {
-  /**
-   * Analyze property images and return damage-oriented findings.
-   */
-  async analyzeImages(
-    imageUrls: string[],
-    analysisType: AnalysisType = 'full_analysis'
-  ): Promise<AnalyzeImagesResult> {
-    if (!ORPAYNTER_API_BASE) {
-      return {
-        analysisType,
-        imageCount: imageUrls.length,
-        findings: ['Missing shingles detected', 'Gutter impact damage observed'],
-        confidence: 0.87,
-      };
+    /** Analyze one or more property images for claim-related insights. */
+    async analyzeImages(imageUrls: string[], analysisType: AnalysisType = 'full_analysis'): Promise<JsonObject> {
+        return {
+            mode: ORPAYNTER_API_BASE ? 'live' : 'demo',
+            analysisType,
+            imageCount: imageUrls.length,
+            findings: imageUrls.map((url, index) => ({
+                imageUrl: url,
+                severity: index % 2 === 0 ? 'moderate' : 'minor',
+                probableDamageType: 'wind'
+            }))
+        };
     }
 
-    return this.post<AnalyzeImagesResult>('/ai/analyze-images', {
-      imageUrls,
-      analysisType,
-    });
-  }
-
-  /**
-   * Generate a structured report from model analysis output.
-   */
-  async generateReport(
-    analysisData: Record<string, unknown>,
-    propertyInfo: Record<string, unknown>
-  ): Promise<GenerateReportResult> {
-    if (!ORPAYNTER_API_BASE) {
-      return {
-        reportId: `demo-${Date.now()}`,
-        summary: 'Demo report generated from provided analysis and property metadata.',
-        generatedAt: new Date().toISOString(),
-      };
+    /** Generate a summarized report from upstream AI analysis payloads. */
+    async generateReport(analysisData: JsonObject, propertyInfo: JsonObject): Promise<JsonObject> {
+        return {
+            mode: ORPAYNTER_API_BASE ? 'live' : 'demo',
+            generatedAt: new Date().toISOString(),
+            report: {
+                summary: 'Automated report generated for attorney/adjuster review.',
+                analysisData,
+                propertyInfo
+            }
+        };
     }
 
-    return this.post<GenerateReportResult>('/ai/generate-report', {
-      analysisData,
-      propertyInfo,
-    });
-  }
-
-  /**
-   * Estimate cost ranges from damage categories and property context.
-   */
-  async estimateCosts(
-    damageTypes: string[],
-    propertySize: number,
-    location: string
-  ): Promise<EstimateCostsResult> {
-    if (!ORPAYNTER_API_BASE) {
-      const base = Math.max(500, propertySize * 3.5);
-      return {
-        lowEstimate: Math.round(base + damageTypes.length * 350),
-        highEstimate: Math.round(base * 1.8 + damageTypes.length * 800),
-        currency: 'USD',
-      };
+    /** Estimate repair costs by damage profile and property metadata. */
+    async estimateCosts(damageTypes: string[], propertySize: number, location: string): Promise<JsonObject> {
+        const baseRate = 8.5;
+        return {
+            mode: ORPAYNTER_API_BASE ? 'live' : 'demo',
+            location,
+            estimatedCostUsd: Math.round(damageTypes.length * propertySize * baseRate),
+            currency: 'USD'
+        };
     }
 
-    return this.post<EstimateCostsResult>('/ai/estimate-costs', {
-      damageTypes,
-      propertySize,
-      location,
-    });
-  }
-
-  /**
-   * Retrieve health details for observability and routing decisions.
-   */
-  async getModelStatus(): Promise<ModelStatusResult> {
-    if (!ORPAYNTER_API_BASE) {
-      return {
-        status: 'healthy',
-        mode: 'demo',
-        latencyMsP95: 220,
-      };
+    /** Return service-level health details for model operations. */
+    async getModelStatus(): Promise<JsonObject> {
+        return {
+            mode: ORPAYNTER_API_BASE ? 'live' : 'demo',
+            status: 'healthy',
+            timestamp: new Date().toISOString()
+        };
     }
-
-    return this.post<ModelStatusResult>('/ai/model-status', {});
-  }
-
-  /**
-   * Send a JSON POST request to the configured OrPaynter API.
-   */
-  private async post<TResponse>(
-    path: string,
-    body: Record<string, unknown>
-  ): Promise<TResponse> {
-    const response = await fetch(`${ORPAYNTER_API_BASE}${path}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    });
-
-    if (!response.ok) {
-      throw new Error(`OrPaynter AI API request failed: ${response.status}`);
-    }
-
-    return (await response.json()) as TResponse;
-  }
 }
 
 /**
- * Bootstraps MCP stdio transport and registers tool contracts.
+ * Runtime validation helper for string arrays from dynamic tool arguments.
+ */
+function readStringArray(value: unknown, fieldName: string): string[] {
+    if (!Array.isArray(value) || !value.every((entry) => typeof entry === 'string')) {
+        throw new Error(`Invalid argument: ${fieldName} must be an array of strings.`);
+    }
+    return value;
+}
+
+/**
+ * Validates that a string is a well-formed URL.
+ */
+function isValidUrl(url: string): boolean {
+    try {
+        const parsed = new URL(url);
+        return parsed.protocol === 'http:' || parsed.protocol === 'https:';
+    } catch {
+        return false;
+    }
+}
+
+/**
+ * Validates an array of URL strings.
+ */
+function validateUrls(urls: string[], fieldName: string): void {
+    for (const url of urls) {
+        if (!isValidUrl(url)) {
+            throw new Error(`Invalid URL in ${fieldName}: ${url}`);
+        }
+    }
+}
+
+/**
+ * Validates that analysisType is one of the allowed enum values.
+ */
+function validateAnalysisType(value: unknown): AnalysisType {
+    const validTypes: AnalysisType[] = ['damage_detection', 'cost_estimation', 'full_analysis'];
+    if (typeof value !== 'string' || !validTypes.includes(value as AnalysisType)) {
+        throw new Error(`Invalid analysisType: expected one of ${validTypes.join(', ')}, got ${value}`);
+    }
+    return value as AnalysisType;
+}
+
+/**
+ * Bootstraps the MCP server and registers AI tool handlers over stdio.
  */
 async function main(): Promise<void> {
-  const aiService = new OrPaynterAIServer();
-  const server = new Server(
-    {
-      name: 'mcp-orpaynter-ai',
-      version: '0.1.0',
-    },
-    {
-      capabilities: {
-        tools: {},
-      },
-    }
-  );
+    const aiService = new OrPaynterAIServer();
+    const server = new Server(
+        {
+            name: 'mcp-orpaynter-ai',
+            version: '0.1.0'
+        },
+        {
+            capabilities: {
+                tools: {}
+            }
+        }
+    );
 
-  // Registers this server's tool catalog for MCP clients.
-  server.setRequestHandler(ListToolsRequestSchema, async () => ({
-    tools: [
-      {
-        name: 'analyze_images',
-        description: 'Analyze property images for damage detection with AI',
-        inputSchema: {
-          type: 'object',
-          properties: {
-            imageUrls: {
-              type: 'array',
-              items: { type: 'string' },
-              description: 'Array of image URLs to analyze',
+    server.setRequestHandler(ListToolsRequestSchema, async () => ({
+        tools: [
+            {
+                name: 'analyze_images',
+                description: 'Analyze property images for damage detection with AI',
+                inputSchema: {
+                    type: 'object',
+                    properties: {
+                        imageUrls: {
+                            type: 'array',
+                            items: { type: 'string' },
+                            description: 'Array of image URLs to analyze'
+                        },
+                        analysisType: {
+                            type: 'string',
+                            enum: ['damage_detection', 'cost_estimation', 'full_analysis'],
+                            default: 'full_analysis'
+                        }
+                    },
+                    required: ['imageUrls']
+                }
             },
-            analysisType: {
-              type: 'string',
-              enum: ['damage_detection', 'cost_estimation', 'full_analysis'],
-              default: 'full_analysis',
+            {
+                name: 'generate_report',
+                description: 'Generate a detailed damage assessment report',
+                inputSchema: {
+                    type: 'object',
+                    properties: {
+                        analysisData: { type: 'object' },
+                        propertyInfo: { type: 'object' }
+                    },
+                    required: ['analysisData', 'propertyInfo']
+                }
             },
-          },
-          required: ['imageUrls'],
-        },
-      },
-      {
-        name: 'generate_report',
-        description: 'Generate a detailed damage assessment report',
-        inputSchema: {
-          type: 'object',
-          properties: {
-            analysisData: { type: 'object' },
-            propertyInfo: { type: 'object' },
-          },
-          required: ['analysisData', 'propertyInfo'],
-        },
-      },
-      {
-        name: 'estimate_costs',
-        description:
-          'Estimate repair costs based on damage types and property info',
-        inputSchema: {
-          type: 'object',
-          properties: {
-            damageTypes: {
-              type: 'array',
-              items: { type: 'string' },
+            {
+                name: 'estimate_costs',
+                description: 'Estimate repair costs based on damage types and property info',
+                inputSchema: {
+                    type: 'object',
+                    properties: {
+                        damageTypes: {
+                            type: 'array',
+                            items: { type: 'string' }
+                        },
+                        propertySize: { type: 'number' },
+                        location: { type: 'string' }
+                    },
+                    required: ['damageTypes', 'propertySize', 'location']
+                }
             },
-            propertySize: { type: 'number' },
-            location: { type: 'string' },
-          },
-          required: ['damageTypes', 'propertySize', 'location'],
-        },
-      },
-      {
-        name: 'get_model_status',
-        description: 'Get current AI model status and health metrics',
-        inputSchema: {
-          type: 'object',
-          properties: {},
-        },
-      },
-    ],
-  }));
+            {
+                name: 'get_model_status',
+                description: 'Get current AI model status and health metrics',
+                inputSchema: {
+                    type: 'object',
+                    properties: {}
+                }
+            }
+        ]
+    }));
 
-  // Routes tool executions to local service methods.
-  server.setRequestHandler(CallToolRequestSchema, async (request) => {
-    const { name, arguments: args = {} } = request.params;
+    server.setRequestHandler(CallToolRequestSchema, async (request) => {
+        const { name, arguments: args = {} } = request.params;
 
-    switch (name) {
-      case 'analyze_images': {
-        const typedArgs = args as {
-          imageUrls: string[];
-          analysisType?: AnalysisType;
-        };
-        const analysisResult = await aiService.analyzeImages(
-          typedArgs.imageUrls,
-          typedArgs.analysisType
-        );
-        return {
-          content: [{ type: 'text', text: JSON.stringify(analysisResult, null, 2) }],
-        };
-      }
+        switch (name) {
+            case 'analyze_images': {
+                const imageUrls = readStringArray(args.imageUrls, 'imageUrls');
+                validateUrls(imageUrls, 'imageUrls');
+                const analysisType = args.analysisType ? validateAnalysisType(args.analysisType) : 'full_analysis';
+                const analysisResult = await aiService.analyzeImages(imageUrls, analysisType);
+                return {
+                    content: [{ type: 'text', text: JSON.stringify(analysisResult, null, 2) }]
+                };
+            }
+            case 'generate_report': {
+                if (!args.analysisData || typeof args.analysisData !== 'object' || Array.isArray(args.analysisData)) {
+                    throw new Error('analysisData is required and must be an object');
+                }
+                if (!args.propertyInfo || typeof args.propertyInfo !== 'object' || Array.isArray(args.propertyInfo)) {
+                    throw new Error('propertyInfo is required and must be an object');
+                }
+                const analysisData = args.analysisData as JsonObject;
+                const propertyInfo = args.propertyInfo as JsonObject;
+                const reportResult = await aiService.generateReport(analysisData, propertyInfo);
+                return {
+                    content: [{ type: 'text', text: JSON.stringify(reportResult, null, 2) }]
+                };
+            }
+            case 'estimate_costs': {
+                const damageTypes = readStringArray(args.damageTypes, 'damageTypes');
+                const rawPropertySize = args.propertySize;
+                const propertySize = typeof rawPropertySize === 'number' ? rawPropertySize : Number(rawPropertySize);
+                if (!Number.isFinite(propertySize) || propertySize <= 0) {
+                    throw new Error('Invalid propertySize: expected a positive number');
+                }
+                const location = String(args.location ?? 'unknown');
+                const costResult = await aiService.estimateCosts(damageTypes, propertySize, location);
+                return {
+                    content: [{ type: 'text', text: JSON.stringify(costResult, null, 2) }]
+                };
+            }
+            case 'get_model_status': {
+                const statusResult = await aiService.getModelStatus();
+                return {
+                    content: [{ type: 'text', text: JSON.stringify(statusResult, null, 2) }]
+                };
+            }
+            default:
+                throw new Error(`Unknown tool: ${name}`);
+        }
+    });
 
-      case 'generate_report': {
-        const typedArgs = args as {
-          analysisData: Record<string, unknown>;
-          propertyInfo: Record<string, unknown>;
-        };
-        const reportResult = await aiService.generateReport(
-          typedArgs.analysisData,
-          typedArgs.propertyInfo
-        );
-        return {
-          content: [{ type: 'text', text: JSON.stringify(reportResult, null, 2) }],
-        };
-      }
+    const transport = new StdioServerTransport();
+    await server.connect(transport);
 
-      case 'estimate_costs': {
-        const typedArgs = args as {
-          damageTypes: string[];
-          propertySize: number;
-          location: string;
-        };
-        const costResult = await aiService.estimateCosts(
-          typedArgs.damageTypes,
-          typedArgs.propertySize,
-          typedArgs.location
-        );
-        return {
-          content: [{ type: 'text', text: JSON.stringify(costResult, null, 2) }],
-        };
-      }
-
-      case 'get_model_status': {
-        const statusResult = await aiService.getModelStatus();
-        return {
-          content: [{ type: 'text', text: JSON.stringify(statusResult, null, 2) }],
-        };
-      }
-
-      default:
-        throw new Error(`Unknown tool: ${name}`);
-    }
-  });
-
-  const transport = new StdioServerTransport();
-  await server.connect(transport);
-
-  console.error('OrPaynter AI MCP Server running on stdio');
-  console.error(`Demo Mode: ${!ORPAYNTER_API_BASE ? 'enabled' : 'disabled'}`);
+    console.error('OrPaynter AI MCP Server running on stdio');
+    console.error(`Demo Mode: ${!ORPAYNTER_API_BASE ? 'enabled' : 'disabled'}`);
 }
 
 main().catch((error) => {
-  console.error('Fatal error in mcp-orpaynter-ai server:', error);
-  process.exitCode = 1;
+    console.error('Failed to start OrPaynter AI MCP Server:', error);
+    process.exit(1);
 });

@@ -15,7 +15,27 @@ CDN-OrPaynter-AI is a web application that serves static assets and dynamic cont
 - **Revalidation** — Incremental Static Regeneration (ISR) support for up-to-date content.
 - **Dynamic Routing** — Configurable redirects and rewrites via `next.config.js`.
 
+## Quick Start
+
+Use the included run script for easy setup and execution:
+
+```bash
+./run.sh dev     # Run development server
+./run.sh build   # Build production version
+./run.sh start   # Run production server
+```
+
+The script automatically installs dependencies if needed and starts the development server on [localhost:3000](http://localhost:3000).
+
 ## Developing Locally
+
+### Option 1: Using the Run Script (Recommended)
+
+1. Clone this repository
+2. Run: `./run.sh dev`
+3. Visit [localhost:3000](http://localhost:3000)
+
+### Option 2: Manual Setup
 
 1. Clone this repository, then run `npm install` in its root directory.
 
