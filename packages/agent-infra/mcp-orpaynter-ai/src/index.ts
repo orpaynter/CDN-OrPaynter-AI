@@ -220,7 +220,10 @@ async function main(): Promise<void> {
                 if (!Number.isFinite(propertySize) || propertySize <= 0) {
                     throw new Error('Invalid propertySize: expected a positive number');
                 }
-                const location = String(args.location ?? 'unknown');
+                const location = String(args.location ?? '');
+                if (!location) {
+                    throw new Error('location is required and must be a non-empty string');
+                }
                 const costResult = await aiService.estimateCosts(damageTypes, propertySize, location);
                 return {
                     content: [{ type: 'text', text: JSON.stringify(costResult, null, 2) }]

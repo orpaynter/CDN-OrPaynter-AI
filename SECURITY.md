@@ -9,6 +9,7 @@ This repository is a **demonstration/template application** for showcasing Netli
 A comprehensive security audit was conducted on February 16, 2026. See [SECURITY_AUDIT.md](./SECURITY_AUDIT.md) for the full report.
 
 **Summary:**
+
 - ✅ No hardcoded secrets or credentials
 - ✅ No dependency vulnerabilities (npm audit: 0 issues)
 - ✅ Environment variables properly managed
@@ -31,6 +32,7 @@ If you discover a security vulnerability in this repository, please:
 ## Supported Versions
 
 This is a demonstration project. Security updates will be applied as needed to:
+
 - Dependencies (via Renovate bot)
 - Next.js framework updates
 - Netlify platform changes
@@ -40,12 +42,15 @@ This is a demonstration project. Security updates will be applied as needed to:
 This repository demonstrates several security best practices:
 
 ### 1. Environment Variables
+
 - All sensitive configuration belongs in environment variables
 - `.env*` files are excluded via `.gitignore`
 - Never commit secrets to version control
 
 ### 2. Security Headers
+
 Implemented in `middleware.js`:
+
 ```javascript
 X-Frame-Options: DENY
 X-Content-Type-Options: nosniff
@@ -53,10 +58,12 @@ Referrer-Policy: strict-origin-when-cross-origin
 ```
 
 ### 3. Input Validation
+
 - Upload functionality can be disabled via `NEXT_PUBLIC_DISABLE_UPLOADS`
 - Server actions validate and sanitize data
 
 ### 4. Dependency Management
+
 - Dependencies are regularly updated via Renovate
 - `npm audit` is run to check for vulnerabilities
 - Only trusted packages from npm registry are used
@@ -64,6 +71,7 @@ Referrer-Policy: strict-origin-when-cross-origin
 ## Privacy Considerations
 
 This application:
+
 - Does NOT collect personal data
 - Does NOT use analytics or tracking
 - Does NOT store user credentials
@@ -79,14 +87,16 @@ This repository is safe to remain public. However, you should consider making it
 4. Deploy it with production secrets or real data
 
 **How to make private:**
+
 1. Go to repository Settings
-2. Scroll to "Danger Zone"  
+2. Scroll to "Danger Zone"
 3. Click "Change repository visibility"
 4. Select "Make private"
 
 ## Defense in Depth
 
 Even though this is a public template, we follow security best practices:
+
 - ✅ Principle of least privilege
 - ✅ Secure by default
 - ✅ No secrets in code

@@ -12,11 +12,13 @@ This repository is a **Next.js demonstration/template application** for Netlify 
 ## What This Repository Is
 
 CDN-OrPaynter-AI is a **Content Delivery Network (CDN) demonstration** built with:
+
 - Next.js 16 (App Router)
 - Tailwind CSS
 - Netlify deployment platform
 
 **Purpose:** This is a template/starter project showcasing Netlify's platform features including:
+
 - Edge Functions
 - Image CDN optimization
 - Blob Store (key-value storage)
@@ -26,18 +28,21 @@ CDN-OrPaynter-AI is a **Content Delivery Network (CDN) demonstration** built wit
 ## Security Audit Findings
 
 ### ✅ No Hardcoded Secrets Found
+
 - **No API keys** hardcoded in source code
 - **No passwords** or tokens in files
 - **No private keys** (.pem, .key files) committed
 - **No credentials** in configuration files
 
 ### ✅ Environment Variables Properly Managed
+
 - `.env*` files are correctly excluded via `.gitignore`
 - Only one environment variable used: `NEXT_PUBLIC_DISABLE_UPLOADS` (public-facing, non-sensitive)
 - `process.env.CONTEXT` is a Netlify build metadata variable (non-sensitive)
 - No `.env` files found in git history
 
 ### ✅ No Dependency Vulnerabilities
+
 ```json
 npm audit results:
 - Critical: 0
@@ -49,6 +54,7 @@ Total: 0 vulnerabilities
 ```
 
 ### ✅ Secure Architecture
+
 1. **Middleware Security Headers:**
    - X-Frame-Options: DENY (prevents clickjacking)
    - X-Content-Type-Options: nosniff (prevents MIME sniffing)
@@ -64,8 +70,10 @@ Total: 0 vulnerabilities
    - No user authentication or personal data
 
 ### ✅ Public Data Only
+
 The repository contains only:
-- **Movie quotes** (from public domain/famous films)
+
+- **Movie quotes** (publicly available quotes from well-known films; rights remain with the original copyright holders)
 - **Demo code** for Netlify features
 - **Configuration files** without secrets
 - **Static assets** (images, styles)
@@ -90,6 +98,7 @@ The repository contains only:
 ### ✅ Repository Can Remain Public
 
 **Reasons:**
+
 1. This is a demonstration/template application
 2. No secrets or credentials are committed
 3. No dependency vulnerabilities exist
@@ -144,7 +153,7 @@ If you decide to make it private:
 ✅ Dependencies are up-to-date  
 ✅ No npm audit vulnerabilities  
 ✅ Environment variables properly managed  
-✅ Access controls demonstrated (admin blocking)  
+✅ Access controls demonstrated (admin blocking)
 
 ## Conclusion
 

@@ -8,35 +8,37 @@ I’m Oliver Paynter — ex-roofer from Texas who swung hammers on real jobs whe
 
 ### The 7 Agents That Actually Get Shit Done
 
-| Agent            | Role                                      | Real Impact                          |
-|------------------|-------------------------------------------|--------------------------------------|
-| **Intake**       | Lead qual & signal catcher                | Every job starts right               |
-| **Estimator**    | Instant Xactimate-level bids              | Accurate in seconds                  |
-| **Scheduler**    | Crew & inspection coordination            | No more missed slots                 |
-| **Compliance**   | Permits, regs, audits                     | Always legal & clean                 |
-| **Claims**       | Full insurance docs & submission          | Payouts 5× faster                    |
-| **Customer**     | 24/7 homeowner comms                      | Better reviews, more referrals       |
-| **Reconciliation**| Payments & job close-out                 | Clean cash flow                      |
+| Agent              | Role                             | Real Impact                    |
+| ------------------ | -------------------------------- | ------------------------------ |
+| **Intake**         | Lead qual & signal catcher       | Every job starts right         |
+| **Estimator**      | Instant Xactimate-level bids     | Accurate in seconds            |
+| **Scheduler**      | Crew & inspection coordination   | No more missed slots           |
+| **Compliance**     | Permits, regs, audits            | Always legal & clean           |
+| **Claims**         | Full insurance docs & submission | Payouts 5× faster              |
+| **Customer**       | 24/7 homeowner comms             | Better reviews, more referrals |
+| **Reconciliation** | Payments & job close-out         | Clean cash flow                |
 
 ### Live Numbers (Feb 2026)
-- 500+ active contractors  
-- 50+ insurance partners (State Farm, Allstate, Liberty Mutual, USAA, Progressive + more)  
-- 10K+ estimates generated  
-- $2M+ claims processed  
-- 33.3% conversion rate  
-- 10× faster operations  
-- 40% more deals closed  
-- 70% lower costs for insurance partners  
-- SOC 2 compliant • GDPR ready • Enterprise security  
+
+- 500+ active contractors
+- 50+ insurance partners (State Farm, Allstate, Liberty Mutual, USAA, Progressive + more)
+- 10K+ estimates generated
+- $2M+ claims processed
+- 33.3% conversion rate
+- 10× faster operations
+- 40% more deals closed
+- 70% lower costs for insurance partners
+- SOC 2 compliant • GDPR ready • Enterprise security
 
 > “This platform turns pressure into progress — and gives you peace of mind.”  
 > — Oliver Paynter
 
 ### Jump In
-- [Book a 5-min live demo](https://orpaynter.com)  
-- [Get instant AI inspection](https://orpaynter.com/homeowner)  
-- [See plans & pricing](https://orpaynter.com/pricing)  
-- [Public CDN edge infra](https://github.com/OrPaynter-Inc/CDN-OrPaynter-AI)
+
+- [Book a 5-min live demo](https://orpaynter.com)
+- [Get instant AI inspection](https://orpaynter.com/homeowner)
+- [See plans & pricing](https://orpaynter.com/pricing)
+- [Public CDN edge infra](https://github.com/orpaynter/CDN-OrPaynter-AI)
 
 **For roofers:** Stop fighting the old way.  
 **For devs & partners:** Star it, fork it, open issues — let’s build.  

@@ -140,7 +140,13 @@ async function main(): Promise<void> {
         switch (name) {
             case 'create_claim': {
                 const propertyAddress = String(args.propertyAddress ?? '');
+                if (!propertyAddress) {
+                    throw new Error('propertyAddress is required and must be a non-empty string');
+                }
                 const damageType = String(args.damageType ?? '');
+                if (!damageType) {
+                    throw new Error('damageType is required and must be a non-empty string');
+                }
                 const photos = readStringArray(args.photos, 'photos');
                 const claimResult = await claimsService.createClaim(propertyAddress, damageType, photos);
                 return {
@@ -162,7 +168,13 @@ async function main(): Promise<void> {
             }
             case 'update_claim_status': {
                 const claimId = String(args.claimId ?? '');
+                if (!claimId) {
+                    throw new Error('claimId is required and must be a non-empty string');
+                }
                 const status = String(args.status ?? '');
+                if (!status) {
+                    throw new Error('status is required and must be a non-empty string');
+                }
                 const updateResult = await claimsService.updateClaimStatus(claimId, status);
                 return {
                     content: [{ type: 'text', text: JSON.stringify(updateResult, null, 2) }]

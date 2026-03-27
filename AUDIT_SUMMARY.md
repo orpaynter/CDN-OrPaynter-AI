@@ -13,6 +13,7 @@
 **NO** - This repository is safe to remain public.
 
 This is a demonstration/template application for Netlify + Next.js with:
+
 - ✅ No secrets or credentials
 - ✅ No sensitive data
 - ✅ No security vulnerabilities
@@ -22,23 +23,24 @@ This is a demonstration/template application for Netlify + Next.js with:
 
 ## 📊 Audit Results at a Glance
 
-| Security Check | Result | Details |
-|----------------|--------|---------|
-| **Hardcoded Secrets** | ✅ PASS | No API keys, passwords, or tokens found |
-| **Credentials in Code** | ✅ PASS | No .pem, .key, or credential files |
-| **Environment Variables** | ✅ PASS | Properly excluded via .gitignore |
-| **Git History** | ✅ PASS | No secrets in commit history |
-| **npm Vulnerabilities** | ✅ PASS | 0 vulnerabilities (0 critical, 0 high, 0 moderate) |
-| **Dependency Count** | ℹ️ INFO | 494 total dependencies (87 prod, 375 dev) |
-| **Sensitive Data** | ✅ PASS | Only movie quotes (public domain) |
-| **Security Headers** | ✅ PASS | X-Frame-Options, X-Content-Type-Options, Referrer-Policy |
-| **Access Controls** | ✅ PASS | Admin paths blocked, upload controls present |
+| Security Check            | Result  | Details                                                  |
+| ------------------------- | ------- | -------------------------------------------------------- |
+| **Hardcoded Secrets**     | ✅ PASS | No API keys, passwords, or tokens found                  |
+| **Credentials in Code**   | ✅ PASS | No .pem, .key, or credential files                       |
+| **Environment Variables** | ✅ PASS | Properly excluded via .gitignore                         |
+| **Git History**           | ✅ PASS | No secrets in commit history                             |
+| **npm Vulnerabilities**   | ✅ PASS | 0 vulnerabilities (0 critical, 0 high, 0 moderate)       |
+| **Dependency Count**      | ℹ️ INFO | 494 total dependencies (87 prod, 375 dev)                |
+| **Sensitive Data**        | ✅ PASS | Only non-sensitive demo content (e.g., movie quotes)     |
+| **Security Headers**      | ✅ PASS | X-Frame-Options, X-Content-Type-Options, Referrer-Policy |
+| **Access Controls**       | ✅ PASS | Admin paths blocked, upload controls present             |
 
 ---
 
 ## 📁 What This Repository Contains
 
 ### ✅ Safe, Public Content:
+
 - Next.js + Netlify demo application
 - Movie quotes from famous films
 - Template code for CDN features
@@ -47,6 +49,7 @@ This is a demonstration/template application for Netlify + Next.js with:
 - Configuration examples
 
 ### 🔒 What It Does NOT Contain:
+
 - ❌ API keys or secrets
 - ❌ User data or personal information
 - ❌ Credentials or passwords
@@ -61,6 +64,7 @@ This is a demonstration/template application for Netlify + Next.js with:
 **Current Status: NOT NEEDED**, but here's how if you change your mind:
 
 ### Method 1: GitHub Web Interface
+
 1. Go to **Settings**
 2. Scroll to **Danger Zone**
 3. Click **Change repository visibility**
@@ -68,6 +72,7 @@ This is a demonstration/template application for Netlify + Next.js with:
 5. Confirm by typing repository name
 
 ### Method 2: GitHub CLI
+
 ```bash
 gh repo edit orpaynter/CDN-OrPaynter-AI --visibility private
 ```
@@ -161,7 +166,8 @@ If you're using this as a template, review:
 **"Do I need to make my fork private?"**  
 Only if you add sensitive data or proprietary code.
 
-**"What if I accidentally commit a secret?"**  
+**"What if I accidentally commit a secret?"**
+
 1. Rotate the secret immediately
 2. Use BFG Repo-Cleaner or git filter-branch
 3. Consider making repo private temporarily

@@ -7,8 +7,9 @@
 ## Why It's Safe to Be Public
 
 This is a **demonstration/template application** that:
+
 - ✅ Contains NO secrets or API keys
-- ✅ Contains NO credentials or passwords  
+- ✅ Contains NO credentials or passwords
 - ✅ Contains NO proprietary code
 - ✅ Contains NO user data or personal information
 - ✅ Has ZERO npm dependency vulnerabilities
@@ -19,6 +20,7 @@ This is a **demonstration/template application** that:
 ## What This Repository Contains
 
 ### Public, Non-Sensitive Content:
+
 - **Demo application** showcasing Netlify + Next.js features
 - **Movie quotes** from famous films (used for demonstration purposes)
 - **Configuration examples** for Netlify deployment
@@ -26,6 +28,7 @@ This is a **demonstration/template application** that:
 - **Template code** for CDN and edge functions
 
 ### How Secrets Are Managed:
+
 - Environment variables are **excluded** via `.gitignore`
 - Netlify credentials are **NOT in the repo** (managed by platform)
 - All sensitive config goes in environment variables
@@ -46,25 +49,29 @@ found 0 vulnerabilities
 Consider making this repository private if you add:
 
 ### 🔒 Sensitive Data
+
 - User authentication or login systems
 - Personal information (names, emails, addresses)
 - Payment processing or financial data
 - Private user content or uploads
 - Health records or regulated data
 
-### 🔒 Proprietary Code  
+### 🔒 Proprietary Code
+
 - Custom business logic unique to your company
 - Proprietary algorithms or trade secrets
 - Internal tools or utilities
 - Competitive advantage features
 
 ### 🔒 Production Configuration
+
 - Internal API endpoints
 - Third-party service configurations
 - Custom security implementations
 - Organization-specific integrations
 
 ### 🔒 Real Secrets (Even Though They Shouldn't Be in Code)
+
 - API keys or tokens (these should NEVER be in code, but private repos add defense-in-depth)
 - Database credentials
 - Service account keys
@@ -107,6 +114,7 @@ gh repo edit orpaynter/CDN-OrPaynter-AI --visibility private
 ## Current Security Posture
 
 ### ✅ What We Do Right:
+
 - Security headers in middleware
 - Environment variables properly managed
 - No secrets committed to version control
@@ -115,21 +123,24 @@ gh repo edit orpaynter/CDN-OrPaynter-AI --visibility private
 - Upload controls via environment flags
 
 ### 📊 Audit Summary:
-| Category | Status | Details |
-|----------|--------|---------|
-| Hardcoded Secrets | ✅ None | No API keys, tokens, or passwords |
-| Environment Variables | ✅ Secure | Excluded via .gitignore |
-| Dependencies | ✅ Clean | 0 vulnerabilities |
-| Sensitive Data | ✅ None | Only public demo data |
-| Security Headers | ✅ Implemented | XSS, clickjacking protection |
-| Git History | ✅ Clean | No secrets in history |
+
+| Category              | Status         | Details                           |
+| --------------------- | -------------- | --------------------------------- |
+| Hardcoded Secrets     | ✅ None        | No API keys, tokens, or passwords |
+| Environment Variables | ✅ Secure      | Excluded via .gitignore           |
+| Dependencies          | ✅ Clean       | 0 vulnerabilities                 |
+| Sensitive Data        | ✅ None        | Only public demo data             |
+| Security Headers      | ✅ Implemented | XSS, clickjacking protection      |
+| Git History           | ✅ Clean       | No secrets in history             |
 
 ## Recommendations
 
 ### For This Current State:
+
 **Keep it PUBLIC** - This is a great template/demo that others can learn from.
 
 ### If You're Deploying to Production:
+
 1. ✅ Use environment variables for all config
 2. ✅ Enable authentication if handling user data
 3. ✅ Consider private repo if adding proprietary features
@@ -139,9 +150,10 @@ gh repo edit orpaynter/CDN-OrPaynter-AI --visibility private
 7. ✅ Use HTTPS only (Netlify handles this)
 
 ### Future Development Checklist:
+
 - [ ] Adding user authentication? → Consider private
 - [ ] Storing personal data? → Make private
-- [ ] Proprietary business logic? → Make private  
+- [ ] Proprietary business logic? → Make private
 - [ ] Just showcasing Netlify features? → Stay public ✅
 
 ## Additional Resources
@@ -153,7 +165,7 @@ gh repo edit orpaynter/CDN-OrPaynter-AI --visibility private
 
 ## Questions?
 
-- **"What if I accidentally committed a secret?"** 
+- **"What if I accidentally committed a secret?"**
   - Use [BFG Repo-Cleaner](https://rtyley.github.io/bfg-repo-cleaner/) or `git filter-branch`
   - Rotate the secret immediately
   - Consider making repo private temporarily
