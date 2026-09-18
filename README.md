@@ -33,16 +33,16 @@ We do **not** claim:
 - insurance-partner logos as customers
 - Pre-IPO / investor-ready status
 
-Those numbers were not evidenced. You will see results on your own jobs.
+Those claims were not evidenced.
 
 ---
 
 ## Canonical code (private)
 
-- `orpaynter/AIA` — backend
-- `orpaynter/claimflow` — operating flow
-- `orpaynter/orpa` — operator
-- `orpaynter/orpaynter-web` — public site
+- [`orpaynter/AIA`](https://github.com/orpaynter/AIA) — backend
+- [`orpaynter/claimflow`](https://github.com/orpaynter/claimflow) — operating flow
+- [`orpaynter/orpa`](https://github.com/orpaynter/orpa) — operator
+- [`orpaynter/orpaynter-web`](https://github.com/orpaynter/orpaynter-web) — public site
 
 ---
 
