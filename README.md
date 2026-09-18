@@ -1,50 +1,49 @@
-# OrPaynter 🏠⚡
+# OrPaynter
 
-**AI Roof Inspections in 3 Seconds. Insurance-Ready Reports. Zero Manual Work.**
+Delaware C-Corp. Founded by a Dallas–Fort Worth roofing contractor.
 
-I’m Oliver Paynter — ex-roofer from Texas who swung hammers on real jobs where deadlines don’t care and excuses don’t pay the bills. I got sick of the chaos, the delays, and systems that never talked to each other. So I built OrPaynter.
+**Governed AI for roofing insurance claims.** A contractor turns photos and job files into an evidence-linked package. The system drafts. A named human approves. The audit trail stays locked.
 
-**Agentic AI orchestration platform** with 7 specialized agents that run your entire roofing workflow — automatically. 98% damage detection accuracy. Contractors close deals **3× faster**. Built by roofers, for roofers.
+Live site: [orpaynter.com](https://orpaynter.com) · [orpaynter.ai](https://orpaynter.ai)
 
-### The 7 Agents That Actually Get Shit Done
+Company GitHub: [Orpaynter-Inc](https://github.com/Orpaynter-Inc)
 
-| Agent              | Role                             | Real Impact                    |
-| ------------------ | -------------------------------- | ------------------------------ |
-| **Intake**         | Lead qual & signal catcher       | Every job starts right         |
-| **Estimator**      | Instant Xactimate-level bids     | Accurate in seconds            |
-| **Scheduler**      | Crew & inspection coordination   | No more missed slots           |
-| **Compliance**     | Permits, regs, audits            | Always legal & clean           |
-| **Claims**         | Full insurance docs & submission | Payouts 5× faster              |
-| **Customer**       | 24/7 homeowner comms             | Better reviews, more referrals |
-| **Reconciliation** | Payments & job close-out         | Clean cash flow                |
+---
 
-### Live Numbers (Feb 2026)
+## What this repo is
 
-- 500+ active contractors
-- 50+ insurance partners (State Farm, Allstate, Liberty Mutual, USAA, Progressive + more)
-- 10K+ estimates generated
-- $2M+ claims processed
-- 33.3% conversion rate
-- 10× faster operations
-- 40% more deals closed
-- 70% lower costs for insurance partners
-- SOC 2 compliant • GDPR ready • Enterprise security
+Historical CDN / edge material. It is **not** the product source of truth.
 
-> “This platform turns pressure into progress — and gives you peace of mind.”  
-> — Oliver Paynter
+The product is **ClaimFlow**: Mess → Map → Gate → Lock.
 
-### Jump In
+Public demos are labeled **SYNTHETIC**. No carrier decisions. No hidden approvals.
 
-- [Book a 5-min live demo](https://orpaynter.com)
-- [Get instant AI inspection](https://orpaynter.com/homeowner)
-- [See plans & pricing](https://orpaynter.com/pricing)
-- [Public CDN edge infra](https://github.com/orpaynter/CDN-OrPaynter-AI)
+---
 
-**For roofers:** Stop fighting the old way.  
-**For devs & partners:** Star it, fork it, open issues — let’s build.  
-**For investors:** Pre-IPO Delaware C-Corp — hit me direct.
+## What we do not claim
 
-**We don’t just automate tasks. We orchestrate intelligence.**
+Do not treat older copies of this README as current.
 
-Made with calluses, code, and roof tar in Lavon, Texas  
-[orpaynter.com](https://orpaynter.com) • [@ORPAYNTER1](https://x.com/ORPAYNTER1) • Oliver@OrPaynter.com | (469) 479-2526
+We do **not** claim:
+
+- contractor headcount
+- 98% (or any other) accuracy
+- ROI, conversion, or “$2M claims processed”
+- SOC 2 / PCI / GDPR certification
+- insurance-partner logos as customers
+- Pre-IPO / investor-ready status
+
+Those numbers were not evidenced. You will see results on your own jobs.
+
+---
+
+## Canonical code (private)
+
+- `orpaynter/AIA` — backend
+- `orpaynter/claimflow` — operating flow
+- `orpaynter/orpa` — operator
+- `orpaynter/orpaynter-web` — public site
+
+---
+
+OrPaynter, Inc. · Ov@orpaynter.com
